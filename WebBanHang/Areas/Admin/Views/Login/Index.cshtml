@@ -1,0 +1,137 @@
+﻿@model WebBanHang.Areas.Admin.Models.LoginModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Đăng nhập</title>
+    @Styles.Render("~/Content/Admin/css")
+    <link href="~/Content/Admin/Login/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/Login/material-design-iconic-font.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/Login/animsition.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/Login/daterangepicker.css" rel="stylesheet" />
+    <link href="~/Content/Admin/Login/util.css" rel="stylesheet" />
+    <link href="~/Content/Admin/Login/main.css" rel="stylesheet" />
+    @Scripts.Render("~/Content/Admin/js")
+    
+    <script src="~/Content/Admin/vendors/jquery/dist/jquery.min.js"></script>
+    <script></script>
+</head>
+<body>
+    <div class="limiter">
+        <div class="container-login100" style="background-image: url('/Data/Admin/Image/Background/bg-01.jpg');">
+            <div class="wrap-login100">
+                @using (Html.BeginForm("Index", "Login", FormMethod.Post,new { @class = "login100-form validate-form" }))
+                {
+                    @*<span class="login100-form-logo">
+                            <i class="zmdi zmdi-landscape"></i>
+                        </span>*@
+
+                    <span class="login100-form-title p-b-34 p-t-27">
+                        Đăng nhập
+                    </span>
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div class="wrap-input100 validate-input" data-validate="Enter username">
+                        @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "input100", @placeholder = "Tài khoản" } })
+                        @*<input class="input100" type="text" name="username" placeholder="Username">*@
+                        @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+                        <span class="focus-input100"></span>
+                    </div>
+                   
+
+
+                    <div class="wrap-input100 validate-input" data-validate="Enter password">
+                        @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "input100", @type = "password", @placeholder = "Mật khẩu" } })
+                        @*<input class="input100" type="password" name="pass" placeholder="Password">*@
+                        <span class="focus-input100"></span>
+                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                    </div>
+
+                   
+
+
+                    @*<div class="contact100-form-checkbox">
+                        <div class="contact100-form-checkbox">*@
+                    @*<input class="input-checkbox100" id="ckb1" type="checkbox" name="RememberMe">*@
+                    <div class="wrap-input100 validate-input" >
+                        @Html.CheckBoxFor(model => model.RememberMe) <span style="color:white"> Lưu</span>
+                        @*@Html.LabelFor(model => model.RememberMe, htmlAttributes: new { @class = "control-label col-md-2 white" })
+                            @Html.CheckBoxFor(model => model.RememberMe, new { htmlAttributes = new { @class = "form-control col-md-10 col-md-offset-2" } })
+                            @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })*@
+                    </div>
+
+
+                        @*<label class="label-checkbox100" for="ckb1">
+                                    Lưu
+                                </label>
+                            @*</div>*@
+                        @*@Html.CheckBoxFor(model => model.RememberMe, new { htmlAttributes = new { @class = "input-checkbox100", @id = "ckb1" } })
+                            @*<input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">*@
+                        @*@Html.LabelFor(model => model.RememberMe, "Lưu" )
+                            <label  for="ckb1">
+                                Remember me
+                            </label>*@
+                        @*</div>*@
+                        @*<div class="form-group">
+                                @Html.LabelFor(model => model.RememberMe, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.CheckBoxFor(model => model.RememberMe, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+                                </div>
+                            </div>*@
+
+
+                        @*<div class="container-login100-form-btn">
+                                <button class="login100-form-btn">
+                                    Đăng nhập
+                                </button>
+                            </div>*@
+
+                        <div class="container-login100-form-btn">
+                            <input type="submit" class="login100-form-btn" value="Đăng nhập" />
+                        </div>
+
+
+
+                                <div class="text-center p-t-90">
+                                    <a class="txt1" href="#">
+                                        Quên mật khẩu?
+                                    </a>
+                                </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div id="dropDownSelect1"></div>
+
+    <script src="~/Content/Admin/Login/jquery-3.2.1.min.js"></script>
+    <script src="~/Content/Admin/Login/animsition.min.js"></script>
+
+
+    <script src="~/Content/Admin/MyJS/Loginform.js"></script>
+    @*<script src="js/main.js"></script>*@
+
+
+    @if (@TempData["Error"] != null)
+        {
+            <script>
+                Lobibox.notify('error', {
+                    size: 'mini',
+                    rounded: true,
+                    sound: false,
+                    delayIndicator: false,
+                    msg: '@TempData["Error"]'
+                });
+
+            </script>
+        }
+
+</body>
+</html>

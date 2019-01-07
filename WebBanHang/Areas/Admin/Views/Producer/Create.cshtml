@@ -1,0 +1,59 @@
+﻿@model WebBanHang.Models.EF.Producer
+
+@{
+    ViewBag.Title = "Create";
+    //Layout = "~/Areas/Admin/Views/Shared/_LayoutPage.cshtml";
+ }
+
+    <div class="form-horizontal">
+        <hr />
+        <div class="form-group">
+          <label class = "control-label col-md-2">Tên NXS(*)</label>
+            <div class="col-md-10">
+               <input class = "form-control" id = "nameToChange" onKeyUp = "ChangeToSlug()">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Đường dẫn(*)</label>
+            <div class="col-md-10">
+                <input type="text" class = "form-control"id = "changeSlug" readonly />
+                <script src="~/Content/Admin/MyJS/Slug.js"></script>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-5 col-md-4">
+                <button class="btn-success" id="submit_create" style="display: block; margin: auto 0;">Thêm Nhà sản xuất</button>
+            </div>
+        </div>
+    </div>
+
+
+<div>
+    @*@Html.ActionLink("Back to List", "Index")*@
+</div>
+<script>
+    $(document).ready(function () {
+        Create();
+    })
+    function Create() {
+        $("#submit_create").off('click').on('click', function () {
+            alert(1);
+            var obj = $(this);
+            var name = $("#nameToChange").val();
+            var metaTitle = $("#changeSlug").val();
+            $.ajax({
+                url: "Create",
+                data: { name: name, metatitle: metaTitle },
+                datatype: "JSON",
+                type: "POST",
+                success: function(data)
+                {
+                    alert(data.status);
+                    $("#list_Item").load("Index1");
+                }
+            })
+        })
+    }
+</script>

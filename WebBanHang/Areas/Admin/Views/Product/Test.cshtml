@@ -1,0 +1,108 @@
+﻿@model IEnumerable<WebBanHang.Models.EF.Product>
+
+@{
+    ViewBag.Title = "Test";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutPage.cshtml";
+}
+
+<h2>Test chức năng tìm kiếm</h2>
+@using (Html.BeginForm("Test", "Product", FormMethod.Get))
+{
+    <input name="searchName" value="@ViewBag.CurrentFilter" class="search-field" placeholder="Tìm kiếm..." />
+    <input name="searchProducer" value="@ViewBag.CurrentFilter1" class="search-field" placeholder="Tìm kiếm theo NSX ..." />
+    <input type="number" name="searchPrice" value="@ViewBag.CurrentFilter2" class="search-field" placeholder="Tìm kiếm theo giá ..." />
+    <input type="number" name="searchQuantity" value="@ViewBag.CurrentFilter3" class="search-field" placeholder="Tìm kiếm theo so luong ..." />
+    <input type="submit" value="Tìm" class="search-button" />
+}
+
+@*<p>
+    @Html.ActionLink("Create New", "Create")
+</p>*@
+<table class="table">
+    <tr>
+        <th>
+            Tên nhà sản xuất
+        </th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.ProductCategory.Name)
+        </th>*@
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Code)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MetaTitle)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Quantity)
+        </th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.Detail)
+        </th>*@
+        <th>
+            @Html.DisplayNameFor(model => model.IsHot)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreateDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        @*<th></th>*@
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Producer.Name)
+        </td>
+        @*<td>
+            @Html.DisplayFor(modelItem => item.ProductCategory.Name)
+        </td>*@
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Code)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MetaTitle)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Quantity)
+        </td>
+        @*<td>
+            @Html.Raw(item.Detail)
+        </td>*@
+        <td>
+            @Html.DisplayFor(modelItem => item.IsHot)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreateDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Status)
+        </td>
+        @*<td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+        </td>*@
+    </tr>
+}
+
+</table>

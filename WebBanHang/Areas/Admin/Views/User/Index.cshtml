@@ -1,0 +1,101 @@
+﻿@model PagedList.IPagedList<WebBanHang.Models.EF.User>
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutPage.cshtml";
+}
+
+
+<h3 class="text-center text-info">Danh sách người dùng</h3>
+
+<p>
+    <a href="/User/Create"> <img id="addUser" class="img-thumbnail icon-hover" width="40" height="40" src="~/Data/Admin/Image/Icon/AddImage.png" /></a>
+    @using (Html.BeginForm("Index", "User", FormMethod.Get))
+    {
+        <input name="searchStr" value="@ViewBag.CurrentFilter" class="search-field" placeholder="Tìm kiếm..." />
+        <input type="submit" value="Tìm" class="search-button" />
+    }
+</p>
+<div class="row">
+    @foreach (var item in Model)
+    {
+
+        <div class="col-md-2 container_user" id="container_@item.ID" >
+            <div class="img-container"><img src=@Url.Content(@item.Avatar) class="img-thumbnail img"></div>
+            <div> @item.Username </div>
+            <div> @item.Name</div>
+            <div class="row">
+                <div class="icon-container col-md-3">
+                    @if (item.Active)
+                    {
+                        <img src="~/Data/Admin/Image/Icon/ActiveImage.jpg" class="img-thumbnail imgicon" title="Online" id="ActiveIcon" />
+                    }
+                    else
+                    {
+                        <img src="~/Data/Admin/Image/Icon/UnActiveImage.jpg" class="img-thumbnail imgicon" title="Offline!" id="UnActiveIcon" />
+                    }
+                </div>
+                <div class="icon-container col-md-3">                   
+                    @{
+                        if (item.Block)
+                        {
+                            <img src="~/Data/Admin/Image/Icon/LockImage.PNG" class="img-thumbnail imgicon BlockIcon" data-id="@item.ID" title="Khóa!" />
+                        }
+                        else
+                        {
+                            if (item.ID.ToString() == Session["ID"].ToString())
+                            {
+                                <img src="~/Data/Admin/Image/Icon/UnlockImage.PNG" class="img-thumbnail imgicon" data-id="@item.ID" title="Cho phép!" />
+                            }
+                            else
+                            {
+                                <img src="~/Data/Admin/Image/Icon/UnlockImage.PNG" class="img-thumbnail imgicon BlockIcon" data-id="@item.ID" title="Cho phép!" />
+                            }
+                        }
+                    }
+                </div>
+                <div class="icon-container col-md-3">
+                    <a href=@Url.Action("Details", new { id = @item.ID })><img src="~/Data/Admin/Image/Icon/EditImage.png" class="img-thumbnail imgicon" title="Sửa!" id="Details" /></a>
+                </div>
+                <div class="icon-container col-md-3">
+                    <img src="~/Data/Admin/Image/Icon/DeleteImage.png" data-id="@item.ID" class="img-thumbnail imgicon DeleteIcon" title="Xóa"  />
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+@Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page = page, currentFilter = ViewBag.CurrentFilter }))
+
+<style>
+    .img {
+        width: 200px;
+        height: 250px;
+        margin: auto;
+    }
+
+    .imgicon {
+        width: 40px;
+        height: 40px;
+    }
+
+    .container_user {
+        padding: 2%;
+        background-color: white;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    .icon-container {
+        padding: 2%;
+        box-shadow: none;
+    }
+
+    .imgicon:hover {
+        cursor: pointer;
+    }
+</style>
+<script src="~/Content/Admin/MyJS/UserControllerJS.js">
+</script>

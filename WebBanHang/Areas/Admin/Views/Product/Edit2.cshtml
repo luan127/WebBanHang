@@ -1,0 +1,218 @@
+﻿@model WebBanHang.Models.EF.Product
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutPage.cshtml";
+}
+
+
+<h2 class="text-center">Cập nhật thông tin sản phẩm</h2>
+
+<script>
+    //alert(@Model.Name, @Model.Description, @Model.Detail);
+</script>
+@using (Html.BeginForm("Edit", "Product", FormMethod.Post, new
+{ enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="row">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="col-md-8">
+            <h3 class="text-center">Thông tin cơ bản</h3>
+            <div class="form-horizontal">
+
+                <hr />
+                @Html.HiddenFor(model => model.ID)
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @id = "nameToChange", @onKeyUp = "ChangeToSlug()" } })
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Code, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.MetaTitle, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.MetaTitle, new { htmlAttributes = new { @class = "form-control", @id = "changeSlug", @readOnly = true } })
+                        @Html.ValidationMessageFor(model => model.MetaTitle, "", new { @class = "text-danger" })
+                        <script src="~/Content/Admin/MyJS/Slug.js"></script>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2", })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
+                        @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextAreaFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                        <script>
+                            //CKEDITOR.replace("description");
+                            CKEDITOR.replace('Description', {
+                                uiColor: '#14B8C4',
+                                toolbar: [
+                                    ['Bold', 'Italic', '-', 'NumberedList', 'BulletedList', '-', ],
+                                    ['FontSize', 'TextColor', 'BGColor']
+                                ]
+                            });
+                        </script>
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextAreaFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                        <script>
+                            //CKEDITOR.replace("description");
+                            CKEDITOR.replace('Description', {
+                                uiColor: '#14B8C4',
+                                toolbar: [
+                                    ['Bold', 'Italic', '-', 'NumberedList', 'BulletedList', '-', ],
+                                    ['FontSize', 'TextColor', 'BGColor']
+                                ]
+                            });
+                        </script>
+                    </div>
+                </div>
+
+
+
+                <div class="form-group">
+                    <label class="control-label col-md-2">Số lượng</label>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Detail, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextAreaFor(model => model.Detail, new { htmlAttributes = new { @class = "form-control", @id = "details" } })
+                        @Html.ValidationMessageFor(model => model.Detail, "", new { @class = "text-danger" })
+                        <script>CKEDITOR.replace("details", { uiColor: '#14B8C4' });</script>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+
+            <h3 class="text-center">Giảm giá</h3>
+            <div class="form-horizontal">
+                <hr />
+                <div class="form-group">
+                    <label class="control-label col-md-6 text-left">% Giảm giá <span id="IIdDiscountValue" class="text-warning text-right">0</span></label>
+                    <input type="range" min="0" max="100" name="Discount" class="col-md-6 text-center" id="IIdRangeDiscount" oninput="IFDiscountDisplay(this.value)" />
+                    <script>
+                        function IFDiscountDisplay(val) {
+                            document.getElementById("IIdDiscountValue").innerHTML = val;
+                        }
+                        @*$(document).ready(function()
+                        {
+                            $("#IIdRangeDiscount").val=@Model.Sales.;
+                        })*@
+                    </script>
+
+                </div>
+                <div class="form-group">
+
+                    <input type="date" name="BeginDate" class="col-md-4" title="Bắt đầu" value="@Model.Sales.First().BeginDate" />
+                    <p class="col-md-2 text-center">Đến ngày</p>
+                    <input type="date" name="BeginDate" class="col-md-4" title="Kết thúc" value="@Model.Sales.First().EndDate" />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <h3 class="text-center">Nhà sản xuất</h3>
+            <div class="form-horizontal">
+                <hr />
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.DropDownList("ProducerID", null, "NHÀ SẢN XUẤT", htmlAttributes: new { @class = "form-control text-center" })
+                        @Html.ValidationMessageFor(model => model.ProducerID, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <h3 class="text-center">Loại sản phẩm</h3>
+            <div class="form-horizontal">
+                <hr />
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.DropDownList("ProductCategoryID", null, "DÒNG SẢN PHẨM", htmlAttributes: new { @class = "form-control text-center" })
+                        @Html.ValidationMessageFor(model => model.ProductCategoryID, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-4">
+            <h3 class="text-center">Hình ảnh</h3>
+            <div class="form-horizontal">
+                <hr />
+                <div class="form-group">
+                    <p class="col-md-12 text-center">Ảnh chính</p>
+                    <br />
+                    <div class="col-md-12 text-center">
+                        @{
+                            var a = Model.Images.ToList();
+                            <img src=@Url.Content(a[0].Src) class="img-thumbnail text-center" width="200" height="200">
+                        }
+                        <input type="file" name="primaryImage" class="col-md-offset-4 col-md-4 text-center" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <br />
+                    <p class="col-md-12 text-center">Ảnh phụ</p>
+
+                    @{
+                        for (int i = 1; i < a.Count; i++)
+                        {
+                            <div class="col-md-4 left">
+                                <img src=@Url.Content(a[i].Src) class="img-thumbnail" width="100" height="100">
+                            </div>
+                        }
+                        <div class="clearfix"></div>
+
+                    }
+                    <input type="file" name="listImages" class="col-md-offset-4 col-md-4" multiple />
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10 text-center">
+            <input type="submit" value="Thêm sản phẩm" class="btn btn-primary" />
+        </div>
+    </div>
+
+                        }

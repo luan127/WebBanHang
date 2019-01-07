@@ -1,0 +1,85 @@
+﻿
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+
+<form id="IIdForm">
+
+    <div class="form-horizontal">
+        <hr />
+        <div class="form-group">
+            <label class="control-label col-md-2">Tên NXS(*)</label>
+            <div class="col-md-10">
+                <input class="form-control" id="nameToChange" name="name" onKeyUp="ChangeToSlug()">
+                <p class="note dis-none text-warning" id="IIdCheckName"></p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Đường dẫn(*)</label>
+            <div class="col-md-10">
+                <input type="text" class="form-control" id="changeSlug" name="metaTitle" readonly />
+                <script src="~/Content/Admin/MyJS/Slug.js"></script>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-5 col-md-4">
+                <button class="btn-success" id="submit_create" style="display: block; margin: auto 0;">Thêm Nhà sản xuất</button>
+            </div>
+        </div>
+    </div>
+
+
+</form>
+
+<script>
+    $(document).ready(function () {
+        Create();
+        Upper();
+        check_validate();
+    })
+    function Create() {
+        $("#submit_create").off('click').on('click', function () {
+            var obj = $(this);
+            var name = $("#nameToChange").val();
+            var metaTitle = $("#changeSlug").val();
+            $.ajax({
+                url: "Create",
+                data: { name: name, metatitle: metaTitle },
+                datatype: "JSON",
+                type: "POST",
+                success: function (data) {
+                    alert(data.status);
+                    $("#list_Item").load("Index1");
+                }
+            })
+        })
+    }
+    function Upper() {
+        $("#nameToChange").keyup(function () {
+            this.value = this.value.toUpperCase();
+        })
+    }
+    $.validator.addMethod("regex", function (value, element, regexp) {
+
+        return this.optional(element) || regexp.test(value);
+    },"");
+    function check_validate() {
+        $("#IIdForm").validate({
+            rules: {
+                name: {
+                    required: true,
+                    regex: /^[a-z0-9A-Z/s]{1,50}$/
+                }
+            },
+
+            messages: {
+                name: {
+                    required: "Vui lòng điền tên nhà sản xuất!",
+                    regex: "Tên nhà sản xuất bao gồm chữ cái, số và dưới 50 ký tự!"
+                }
+            }
+        });
+    }
+
+</script>

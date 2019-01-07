@@ -1,0 +1,178 @@
+﻿@model WebBanHang.Models.EF.Product
+
+@{
+    ViewBag.Title = "Thêm sản phẩm";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutPage.cshtml";
+}
+
+<h3 class="text-center text-success">Thêm sản phẩm</h3>
+
+@using (Html.BeginForm("Create", "Product", FormMethod.Post, new
+{ enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <fieldset class="col-md-8">
+            <h3 class="text-center">Thông tin cơ bản</h3>
+            <div class="form-horizontal">
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @id = "nameToChange", @onKeyUp = "ChangeToSlug()" } })
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Code, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.MetaTitle, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.MetaTitle, new { htmlAttributes = new { @class = "form-control", @id = "changeSlug", @readOnly=true } })
+                        @Html.ValidationMessageFor(model => model.MetaTitle, "", new { @class = "text-danger" })
+                        <script src="~/Content/Admin/MyJS/Slug.js"></script>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2"})
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" , @type = "number" } })
+                        @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextAreaFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", @id = "description" } })
+                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                        <script>
+                            //CKEDITOR.replace("description");
+                            CKEDITOR.replace('Description', {
+                                uiColor: '#14B8C4',
+                                toolbar: [
+                                    ['Bold', 'Italic', '-', 'NumberedList', 'BulletedList', '-', ],
+                                    ['FontSize', 'TextColor', 'BGColor']
+                                ]
+                            });
+                        </script>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-2">Số lượng</label>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Detail, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextAreaFor(model => model.Detail, new { htmlAttributes = new { @class = "form-control", @id = "details" } })
+                        @Html.ValidationMessageFor(model => model.Detail, "", new { @class = "text-danger" })
+                        <script>CKEDITOR.replace("Detail", { uiColor: '#14B8C4' });</script>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+
+        <fieldset class="col-md-4">
+
+            <h3 class="text-center">Giảm giá</h3>
+            <div class="form-horizontal">
+                <hr />
+                <div class="form-group">
+                    <label class="control-label col-md-6 text-left">% Giảm giá <span id="IIdDiscountValue" class="text-warning text-right">0</span></label>
+                    <input type="range" min="0" max="100" value="0" name="Discount" class="col-md-6 text-center" id="IIdRangeDiscount" oninput="IFDiscountDisplay(this.value)" />
+                    <script>
+                            function IFDiscountDisplay(val)
+                            {
+                                document.getElementById("IIdDiscountValue").innerHTML = val;
+                            }
+                    </script>
+
+                </div>
+                <div class="form-group">
+                    <input type="date" name="BeginDate" class="col-md-4" title="Bắt đầu" />
+                    <p class="col-md-2 text-center">Đến ngày</p>
+                    <input type="date" name="EndDate" class="col-md-4" title="Kết thúc" />
+                </div>
+            </div>
+        </fieldset>
+
+        <fieldset class="col-md-4">
+            <h3 class="text-center">Nhà sản xuất</h3>
+            <div class="form-horizontal">
+                <hr />
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.DropDownList("ProducerID", null, "NHÀ SẢN XUẤT", htmlAttributes: new { @class = "form-control text-center" })
+                        @Html.ValidationMessageFor(model => model.ProducerID, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <fieldset class="col-md-4">
+            <h3 class="text-center">Loại sản phẩm</h3>
+            <div class="form-horizontal">
+                <hr />
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.DropDownList("ProductCategoryID", null, "DÒNG SẢN PHẨM", htmlAttributes: new { @class = "form-control text-center" })
+                        @Html.ValidationMessageFor(model => model.ProductCategoryID, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+        </fieldset>
+        <fieldset class="col-md-4">
+            <h3 class="text-center">Hình ảnh</h3>
+            <div class="form-horizontal">
+                <hr />
+                <div class="col-md-12 text-center">
+                 
+                    <img src="~/Data/Admin/Image/Product/Product_default.png" class="img-thumbnail img-circle" width="250" height="250" id="IIdAvatar" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-4">Ảnh chính</label>
+                    <div class="col-md-8">
+                        <input type="file" name="primaryImage" onchange="PreviewImage(event)" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-4">Ảnh phụ</label>
+                    <div class="col-md-8">
+                        <input type="file" name="listImages" multiple />
+                    </div>
+                </div>
+            </div>
+
+        </fieldset>
+
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10 text-center">
+            <input type="submit" value="Thêm sản phẩm" class="btn btn-primary" />
+        </div>
+    </div>
+
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+<script src="~/Content/Admin/MyJS/UploadImage.js"></script>

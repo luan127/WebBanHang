@@ -1,0 +1,160 @@
+﻿@model WebBanHang.Models.EF.User
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutPage.cshtml";
+}
+
+<h3 class="text-center text-info">Thông tin chi tiết</h3>
+
+<div class="row">
+    <div class="text-center">
+    <img class="img-thumbnail" width="300" height="400" src=@Url.Content(@Model.Avatar) />
+    </div>
+    <br />
+    <div class="text-center">
+        <a href=@Url.Action("Edit", new { id = @Model.ID })>
+        <span id="addProCategory" class="btn btn-primary btn-lg"> Chỉnh sửa tài khoản </span></a>
+    </div>
+    <hr />
+    <div class="col-md-8 col-md-offset-2">
+        <table class="table table-striped table-bordered table-hover">
+            <tr class="odd">
+                <th class="text-center col-md-4">
+                    Tên thuộc tính
+                </th>
+                <th class="text-center col-md-8">
+                    Chi tiết
+                </th>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    Tài khoản
+                </td>
+                <td class="col-md-8">
+                    @Html.DisplayFor(model => model.Username)
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    Tên
+                </td>
+                <td class="col-md-8">
+                    @Html.DisplayFor(model => model.Name)
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    Giới tính
+                </td>
+                <td class="col-md-8">
+                    @Html.DisplayFor(model => model.Genre)
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    Địa chỉ
+                </td>
+                <td class="col-md-8">
+                    @Html.DisplayFor(model => model.Address)
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    Địa chỉ Email
+                </td>
+                <td class="col-md-8">
+                    @Html.DisplayFor(model => model.Email)
+                </td>
+            </tr>
+
+            
+
+            <tr>
+                <td class="col-md-4">
+                   Ngày sinh
+                </td>
+                <td class="col-md-8">
+                    @Html.DisplayFor(model => model.BirthDay)
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    Số điện thoại
+                </td>
+                <td class="col-md-8">
+                    @Html.DisplayFor(model => model.Phone)
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    Ngày tạo
+                </td>
+                <td class="col-md-8">
+                    @Html.DisplayFor(model => model.CreateDate)
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    Quyền
+                </td>
+                <td class="col-md-8">
+                    @if(Model.Permission==1)
+                    {
+                        <span>Quản trị viên</span>
+                    }else
+                    {
+                        <span>Khách hàng</span>
+                    }
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    Hoạt động
+                </td>
+                <td class="col-md-8">
+                    @if (Model.Active == true)
+                    {
+                        <span class="text-success">Đang hoạt động</span>
+                    }
+                    else
+                    {
+                        <span class="text-danger">Không hoạt động</span>
+                    }
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    Trạng thái
+                </td>
+                <td class="col-md-8">
+                    @if (Model.Block == false)
+                    {
+                        <span class="text-success">Đã cho phép</span>
+                    }
+                    else
+                    {
+                        <span class="text-danger">Bị block</span>
+                    }
+                </td>
+            </tr>
+
+        </table>
+    </div>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

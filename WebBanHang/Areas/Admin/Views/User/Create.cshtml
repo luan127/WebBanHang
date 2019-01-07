@@ -1,0 +1,184 @@
+﻿@model WebBanHang.Models.EF.User
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutPage.cshtml";
+}
+
+<h3 class="text-center text-info">Tạo người dùng</h3>
+
+@using (Html.BeginForm("Create", "User", FormMethod.Post, new
+{ enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="row">
+        <fieldset class="col-md-8">
+            <h3 class="text-center">Thông tin cơ bản</h3>
+            <div class="form-horizontal">
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Username, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-control", @id="tbUsername" } })
+                        @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", @type = "password", @id = "tbPassword" } })
+                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-2">Xác nhận mật khẩu(*)</label>
+                    <div class="col-md-10">
+                        @*@Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @type="email" } })*@
+                        <input type="password" id="tbConfirmPassword" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @*@Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @type="email" } })*@
+                        <input type="email" name="Email" class="form-control" />
+                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Genre, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <div class="col-md-2 col-md-offset-1 "> <input type="radio" name="Genre" value="Nam" />Nam </div>
+                        <div class="col-md-2 col-md-offset-1 "> <input type="radio" name="Genre" value="Nữ" />Nữ </div>
+                        <div class="col-md-2 col-md-offset-1 "> <input type="radio" name="Genre" value="Khác" />Khác </div>
+                        @Html.ValidationMessageFor(model => model.Genre, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.BirthDay, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.BirthDay, new { htmlAttributes = new { @class = "form-control", @type = "Date" } })
+                        @Html.ValidationMessageFor(model => model.BirthDay, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <input type="tel" name="Phone" class="form-control" />
+                        @*@Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control", @type="tel" } })*@
+                        @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Permission, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10 ">
+                        @*@Html.EditorFor(model => model.Permission, new { htmlAttributes = new { @class = "form-control" } })*@
+                        <div class="col-md-2 col-md-offset-1 "> <input type="radio" name="Permission" value="1" /> Quản trị viên </div>
+                        <div class="col-md-2 col-md-offset-1 "> <input type="radio" name="Permission" value="0" />Khách hàng </div>
+                        @Html.ValidationMessageFor(model => model.Permission, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <fieldset class="col-md-4">
+            <h3 class="text-center">Ảnh đại diện</h3>
+            <div class="form-horizontal">
+                <hr />
+                <div class="col-md-12 text-center">
+                    <img src="~/Data/Admin/Image/User/UserDefault.png" class="img-thumbnail img-circle" width="250" height="250" id="IIdAvatar" />
+                </div>
+                <div class="form-group col-md-4 col-md-offset-4-8">
+                    <label class="control-label col-md-2">Avatar</label>
+                    <div class="col-md-10 text-center">
+                        <input type="file" name="Avatar" onchange="PreviewImage(event)" />
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-3 col-md-10">
+            <a href="Index" class="btn btn-info"> Hủy/ Quay lại danh sách</a>
+            <input type="submit" value="Tạo tài khoản" class="btn btn-success" id="btnSubmit" />
+        </div>
+    </div>
+
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+<script>
+    $(document).ready(function () {
+        //alert(1);
+        $("#tbPassword").val("");
+        $("#tbUsername").val("");
+
+        var pass = document.getElementById("tbPassword")
+        , conpass = document.getElementById("tbConfirmPassword");
+
+        function validatePassword() {
+            if (pass.value != conpass.value) {
+                conpass.setCustomValidity("Mật khẩu không khớp!");
+            } else {
+                conpass.setCustomValidity('');
+            }
+        }
+        pass.onchange = validatePassword;
+        conpass.onkeyup = validatePassword;
+    })
+</script>
+<script src="~/Content/Admin/MyJS/UploadImage.js"></script>
+
+@*<form class="pure-form">
+    <fieldset>
+        <legend>Confirm password with HTML5</legend>
+
+        <input type="password" placeholder="Password" id="password" required>
+        <input type="password" placeholder="Confirm Password" id="confirm_password" required>
+
+        <button type="submit" class="pure-button pure-button-primary">Confirm</button>
+    </fieldset>
+</form>
+<script>
+    var password = document.getElementById("password")
+  , confirm_password = document.getElementById("confirm_password");
+
+    function validatePassword() {
+        if (password.value != confirm_password.value) {
+            confirm_password.setCustomValidity("Mật khẩu không trùng khớp!");
+        } else {
+            confirm_password.setCustomValidity('');
+        }
+    }
+
+    password.onchange = validatePassword;
+    confirm_password.onkeyup = validatePassword;
+</script>*@

@@ -1,0 +1,76 @@
+﻿@model IEnumerable<WebBanHang.Models.EF.Producer>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+
+<table class="table table-striped table-bordered table-hover">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MetaTitle)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr id="row_@item.ID">
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.MetaTitle)
+        </td>
+
+        <td class="text-center">
+            <img src="~/Data/Admin/Image/Icon/EditImage.png"  data-id="@item.ID" class="img-thumbnail ICEditProduct icon-hover" width="40" height="40" />
+            <img src="~/Data/Admin/Image/Icon/DeleteImage.png" data-id="@item.ID" class="img-thumbnail ICDeleteProducer icon-hover" width="40" height="40" />
+            @* <button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Login</button>*@
+           @* <img src="~/Data/Admin/Image/Icon/DetailsImage.png" data-id="@item.ID" class="img-thumbnail ICDetailsProduct icon-hover" width="40" height="40" />*@
+
+        </td>
+    </tr>
+}
+
+</table>
+<style>
+    .icon-hover:hover {
+        cursor: pointer;
+    }
+</style>
+<script>
+    $(document).ready(function () {
+        show_Edit();
+        Delete();
+    })
+    function show_Edit() {
+        $(".ICEditProduct").off('click').on('click', function (e) {
+            e.preventDefault();
+            var obj = $(this);
+            var id = obj.data("id");
+            $("#partial_Edit").load("Edit?id="+id);
+            $("#edit_item").toggle(500);
+        })
+    }
+    function Delete() {
+        $(".ICDeleteProducer").off('click').on('click', function (e) {
+            e.preventDefault();
+            var obj = $(this);
+            var id = obj.data("id");
+            var conf = confirm("Bạn sẽ xóa toàn bộ sản phẩm của hãng này.\n Bạn có đồng ý?");
+            if(conf==true)
+            {
+                $.ajax({
+                    url: "Delete",
+                    data: { id: id },
+                    dataType: "JSON",
+                    type: "POST",
+                    success: function (data) {
+                        alert(data.status);
+                        $('#row_' + id + '').remove();
+                    }
+                });
+            }
+        })
+    }
+</script>

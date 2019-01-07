@@ -1,0 +1,53 @@
+﻿@model WebBanHang.Models.EF.Producer
+
+<form id="IIdForm">
+    <div class="form-horizontal">
+        <hr />
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Tên NXS(*)</label>
+            <div class="col-md-10">
+                <input class="form-control" id="nameToChange" onKeyUp="ChangeToSlug()" value="@Model.Name">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Đường dẫn(*)</label>
+            <div class="col-md-10">
+                <input type="text" class="form-control" id="changeSlug" value="@Model.MetaTitle" readonly />
+                <script src="~/Content/Admin/MyJS/Slug.js"></script>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-5 col-md-4">
+                <button type="submit" id="btn_Edit" data-id="@Model.ID" class="btn btn-success" style="display:block; margin: auto 0;">Cập nhật nhà sản xuất</button>
+            </div>
+        </div>
+
+    </div>
+</form>
+
+    <script>
+        $(document).ready(function () {
+            update();
+        })
+        function update() {
+            $("#btn_Edit").off('click').on('click', function () {
+                var obj = $(this);
+                var id = obj.data("id");
+                var name = $("#nameToChange").val();
+                var metaTitle = $("#changeSlug").val();
+                $.ajax({
+                    url: "Edit",
+                    data: { id: id, name: name, metatitle: metaTitle },
+                    datatype: "JSON",
+                    type: "POST",
+                    success: function (data) {
+                        alert(data.status);
+                        $("#list_Item").load("Index1");
+                    }
+                })
+            })
+        }
+    </script>

@@ -1,0 +1,76 @@
+﻿
+@{
+    ViewBag.Title = "test";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutPage.cshtml";
+}
+
+<h2>test</h2>
+<div class="row">
+    <div class="col-md-2 container_user">
+        <div class="img-container"><img src="~/Data/Admin/Image/Icon/AddImage.png" class="img-thumbnail img"></div>
+        <div>userName</div>
+        <div> Name </div>
+        <div class="row">
+            <div class="icon-container col-md-3">
+                <img src="~/Data/Admin/Image/Icon/LockImage.PNG" class="img-thumbnail imgicon" />
+            </div>
+            <div class="icon-container col-md-3">
+                <img src="~/Data/Admin/Image/Icon/LockImage.PNG" class="img-thumbnail imgicon" />
+            </div>
+            <div class="icon-container col-md-3">
+                <img src="~/Data/Admin/Image/Icon/EditImage.png" class="img-thumbnail imgicon" />
+            </div>
+            <div class="icon-container col-md-3">
+                <img src="~/Data/Admin/Image/Icon/DeleteImage.png" class="img-thumbnail imgicon" />
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-2 container_user">
+        <div class="img-container"><img src="~/Data/Admin/Image/Icon/AddImage.png" class="img-thumbnail img"></div>
+        <div>userName</div>
+        <div class="row">
+            <div class="icon-container col-md-3">
+                <img src="~/Data/Admin/Image/Icon/AddImage.png" class="img-thumbnail imgicon" />
+            </div>
+            <div class="icon-container col-md-3">
+                <img src="~/Data/Admin/Image/Icon/AddImage.png" class="img-thumbnail imgicon" />
+            </div>
+            <div class="icon-container col-md-3">
+                <img src="~/Data/Admin/Image/Icon/AddImage.png" class="img-thumbnail imgicon" />
+            </div>
+            <div class="icon-container col-md-3">
+                <img src="~/Data/Admin/Image/Icon/AddImage.png" class="img-thumbnail imgicon" />
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<style>
+    .img {
+        width: 200px;
+        height: 250px;
+        margin:auto;
+    }
+
+    .imgicon {
+        width: 40px;
+        height: 40px;
+    }
+
+    .container_user {
+        margin: 0.5%;
+        background-color: white;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    .icon-container {
+        padding: 2%;
+        box-shadow: none;
+    }
+
+    .imgicon:hover {
+        cursor: pointer;
+    }
+</style>

@@ -1,0 +1,167 @@
+﻿@model PagedList.IPagedList<WebBanHang.Models.EF.Order>
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutPage.cshtml";
+}
+<h3 class="text-center text-info">Danh sách hóa đơn</h3>
+
+<p>
+    @using (Html.BeginForm("Index", "Product", FormMethod.Get))
+    {
+        <input name="searchStr" value="@ViewBag.CurrentFilter" class="search-field" placeholder="Tìm kiếm..." />
+        <input type="submit" value="Tìm" class="search-button" />
+    }
+</p>
+<table class="table table-striped table-bordered table-hover">
+    <tr>
+        <th class="text-center">
+            Tài khoản
+        </th>
+        <th class="text-center">
+            Người mua
+        </th>
+        <th class="text-center">
+            Số điện thoại
+        </th>
+        <th class="text-center">
+            Địa chỉ
+        </th>
+        <th class="text-center">
+            Đại chỉ Email
+        </th>
+        <th class="text-center">
+            Giá trị
+        </th>
+
+        <th class="text-center">
+            Ngày đặt
+        </th>
+
+        <th class="text-center">
+            Trạng thái
+        </th>
+
+
+
+        <th class="text-center">Tùy chọn</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+
+        <tr id="row_@item.ID">
+
+            <td class="text-center">
+                @Html.DisplayFor(modelItem => item.User.Username)
+            </td>
+
+            <td class="text-center">
+                @Html.DisplayFor(modelItem => item.ShipName)
+            </td>
+            <td class="text-center">
+                @Html.DisplayFor(modelItem => item.ShipPhone)
+
+            </td>
+
+            <td class="text-center">
+                @Html.DisplayFor(modelItem => item.ShipAddress)
+            </td>
+
+            <td class="text-center">
+                @Html.DisplayFor(modelItem => item.ShipEmail)
+            </td>
+            <td class="text-center">
+                @Html.DisplayFor(modelItem => item.TotalPrice)
+            </td>
+
+            <td class="text-center">
+                @Html.DisplayFor(modelItem => item.ShipCreateDate)
+            </td>
+
+            <td class="text-center">
+                @{
+                    if (item.Status == 2)
+                    { <span class="text-success"> Đang giao hàng</span>}
+                    if (item.Status == 3)
+                    { <span class="text-success"> Đã giao hàng</span>}
+                    if (item.Status == 1)
+                    { <span class="text-success"> Đang xác nhận</span>}
+                }
+            </td>
+
+            <td class="text-center">
+                <a href=@Url.Action("Edit", new { id = @item.ID })><img src="~/Data/Admin/Image/Icon/EditImage.png" class="img-thumbnail icon-hover" data-ID="@item.ID" width="40" height="40" /></a>
+                <img src="~/Data/Admin/Image/Icon/DeleteImage.png" data-id="@item.ID" class="img-thumbnail IICDelete icon-hover" width="40" height="40" />
+                <a href=@Url.Action("Details", new { id = @item.ID })><img src="~/Data/Admin/Image/Icon/DetailsImage.png" data-id="@item.ID" class="img-thumbnail ICDetailsProduct icon-hover" width="40" height="40" /></a>
+            </td>
+        </tr>
+                    }
+</table>
+
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+@Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page = page, currentFilter = ViewBag.CurrentFilter }))
+<style>
+    .icon-hover:hover {
+        cursor: pointer;
+    }
+</style>
+
+<script>
+    $(document).ready(function () {
+        Delete();
+    })
+    function Delete() {
+        $(".IICDelete").off('click').on('click', function (e) {
+            var conf = confirm('Bạn chắc chắn muốn xóa?');
+            e.preventDefault();
+            var obj = $(this);
+            var id = obj.data('id');
+            if (conf == true) {
+                $.ajax(
+                {
+                    url: "Delete",
+                    data: { id: id },
+                    type: "POST",
+                    dataType: 'JSON',
+                    success: function (data) {
+                        if (data.status == true) {
+                            Lobibox.notify('success', {
+                                size: 'mini',
+                                rounded: true,
+                                sound: false,
+                                delayIndicator: false,
+                                msg: 'Xóa hóa đơn thành công!'
+                            });
+                            $('#row_' + id + '').remove();
+                        }
+                        if (data.status == false) {
+                            Lobibox.notify('error', {
+                                size: 'mini',
+                                rounded: true,
+                                sound: false,
+                                delayIndicator: false,
+                                msg: 'Xóa hoá đơn không thành công!'
+                            });
+                        }
+                    },
+                    error: function () {
+                        Lobibox.notify('error', {
+                            size: 'mini',
+                            rounded: true,
+                            sound: false,
+                            delayIndicator: false,
+                            msg: 'Không thành công, đã có lỗi sảy ra!'
+                        });
+                    }
+                });
+            }
+
+        });
+    }
+
+</script>
+
